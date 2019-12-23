@@ -1,12 +1,16 @@
 (ns lingua.views
   (:require
-   [re-frame.core :as re-frame]
+   [re-frame.core :as rf]
    [lingua.subs :as subs]
    ))
 
 (defn main-panel []
-  (let [name (re-frame/subscribe [::subs/name])]
+  (let [name (rf/subscribe [::subs/name])]
     [:div.container
+     [:div.btn-row
+      [:select
+       [:option "English"]
+       [:option "French"]]
+      [:input {:type "button" :value  "hi"}]]
      [:div.tl
-      [:h1 "Hello from " @name]]
-     ]))
+      [:h1 "Hello from " @name]]]))
