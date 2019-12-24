@@ -1,7 +1,7 @@
 /* lingua.css */
 .container {
     display: grid;
-    grid-template-columns: 45% auto 45%;
+    grid-template-columns: 49.5% auto 49.5%;
     grid-template-rows: 10vh 45vh 45vh;
     grid-template-areas:
         "btn btn btn"
@@ -15,5 +15,61 @@
 
 .btn-row {
     grid-area: btn;
-    background-color: "lightblue";
+    float: left;
+    background-color: lightpink;
+    align-self: center;
+}
+
+.src-url {
+    color: slateblue;
+    display: inline-block;
+    margin-left: 3px;
+}
+
+.src-lang {
+    display: inline-block;
+    color: blue;
+    margin-left: 3px;
+    margin-right: 5px;
+}
+
+.target-lang {
+    display: inline-block;
+    color: red;
+}
+
+.src-or-target {
+    display:inline-block;
+    color: green;
+    margin: 5px;
+}
+
+textarea {
+    width: 100%;
+    height: 100%;
+    -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+    -moz-box-sizing: border-box;    /* Firefox, other Gecko */
+    box-sizing: border-box;         /* Opera/IE 8+ */
+}
+
+.from {
+    grid-area: tl;
+    background-color: lightsalmon;
+}
+
+.to {
+    grid-area: tr;
+    background-color: lightskyblue;
+}
+
+.usertext {
+    margin-top: 5px;
+    grid-area: bl;
+    background-color: mediumaquamarine;
+}
+
+.usertrans {
+    margin-top: 5px;
+    grid-area: br;
+    background-color: mistyrose;
 }
