@@ -6,7 +6,8 @@
                                org.clojure/google-closure-library-third-party]]
                  [thheller/shadow-cljs "2.8.83"]
                  [reagent "0.8.1"]
-                 [re-frame "0.10.9"]]
+                 [re-frame "0.10.9"]
+                 [cljs-http "0.1.46"]]
 
   :plugins [
             [lein-shell "0.5.0"]]
@@ -43,7 +44,7 @@
   :profiles
   {:dev
    {:dependencies [[binaryage/devtools "0.9.11"]
-                   [day8.re-frame/re-frame-10x "0.4.4"]
+                   [day8.re-frame/re-frame-10x "0.4.5"]
                    [day8.re-frame/tracing "0.5.3"]]}
 
    :prod { :dependencies [[day8.re-frame/tracing-stubs "0.5.3"]]}

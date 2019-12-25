@@ -5,3 +5,4 @@
 out
 node_modules/
 .shadow-cljs/
+.clj-kondo/.cache/
