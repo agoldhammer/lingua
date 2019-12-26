@@ -1,1 +1,1 @@
-{:linters {:unresolved-symbol [:exclude [(lingua/events)]]}}
+{:lint-as {day8.re-frame.tracing/fn-traced cljs.core/fn}}
