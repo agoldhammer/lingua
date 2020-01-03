@@ -7,7 +7,8 @@
                  [thheller/shadow-cljs "2.8.83"]
                  [reagent "0.8.1"]
                  [re-frame "0.10.9"]
-                 [cljs-ajax "0.8.0"]]
+                 [day8.re-frame/http-fx "v0.2.0"]
+                 #_[cljs-ajax "0.8.0"]]
 
   :plugins [
             [lein-shell "0.5.0"]]

@@ -4,6 +4,34 @@
    [lingua.subs :as subs]
    ))
 
+;; some utility functions for coords
+
+(defn id->elt
+  "get DOM elt corresp to id"
+  [id]
+  (.getElementById js/document id))
+
+(defn id->rect
+  "element id -> bounding rectangle"
+  [id]
+  (.getBoundingClientRect (id->elt id)))
+
+(defn id->center
+  "get coordinates of center of elt id"
+  [id]
+  (let [rect (id->rect id)
+        left (.-left rect)
+        top (.-top rect)
+        xc (+ left (* 0.5 (- (.-right rect) left)))
+        yc (+ top (* 0.5 (- (.-bottom rect) top)))]
+    [xc yc]))
+
+(defn topleft [id]
+  (let [rect (id->rect id)]
+    [(.-left rect) (.-top rect)]))
+
+;; views
+
 (defn controls []
   [:div.btn-row
    [:div.src-url
@@ -31,11 +59,11 @@
   (let [name (rf/subscribe [::subs/name])]
     [:div.container
      [controls]
-     [:div.from
+     [:div#from
       [:textarea]]
-     [:div.to
+     [:div#to
       [:textarea {:placeholder @name}]]
-     [:div.usertext
+     [:div#usertext
       [:textarea]]
-     [:div.usertrans
+     [:div#usertrans
       [:textarea]]]))
