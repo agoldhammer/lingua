@@ -66,4 +66,7 @@
      [:div#usertext
       [:textarea]]
      [:div#usertrans
-      [:textarea]]]))
+      [:textarea]]
+     #_[:div.loader {:style {:position "absolute"
+                           :left 384
+                           :top 205}}]]))
