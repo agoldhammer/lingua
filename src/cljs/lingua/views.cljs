@@ -68,6 +68,8 @@
       [:textarea]]
      [:div#usertrans
       [:textarea]]
+     ; when error-msg not nil, error box is placed
+     ;  with upper left corner at center of from grid area
      (when error-msg
        (let [[errx erry] (id->center "from")]
          [:div.errorbox {:style {:position "absolute"
