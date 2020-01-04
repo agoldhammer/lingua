@@ -56,17 +56,24 @@
     [:input.src-or-target {:type "button" :value  "source"}]]])
 
 (defn main-panel []
-  (let [name (rf/subscribe [::subs/name])]
+  (let [name @(rf/subscribe [::subs/name])
+        error-msg @(rf/subscribe [::subs/error])]
     [:div.container
      [controls]
      [:div#from
-      [:textarea]]
+      [:textarea {:placeholder error-msg}]]
      [:div#to
-      [:textarea {:placeholder @name}]]
+      [:textarea {:placeholder name}]]
      [:div#usertext
       [:textarea]]
      [:div#usertrans
       [:textarea]]
+     (when error-msg
+       (let [[errx erry] (id->center "from")]
+         [:div.errorbox {:style {:position "absolute"
+                                 :left errx
+                                 :top erry}}
+          error-msg]))
      #_[:div.loader {:style {:position "absolute"
-                           :left 384
-                           :top 205}}]]))
+                             :left 384
+                             :top 205}}]]))

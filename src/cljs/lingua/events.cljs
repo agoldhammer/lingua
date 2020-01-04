@@ -14,15 +14,28 @@
  (fn-traced [_ _]
    db/default-db))
 
+(rf/reg-event-db
+ ::set-error
+ (fn-traced [db [_ errmsg]]
+            (assoc db :error errmsg)))
+(comment "set errmsg to nil will remove error display")
+
 (def api-url "http://lenny.local:8280/api/")
 
 (defn endpoint [id]
   (str api-url id))
 
-#_(defn json-resp [url]
-  (GET (endpoint url)
-    :handler #(prn "Response:" %)
-    :error-handler #(prn "Error: " %)))
+(defn elt-in?
+  "test whether elt is in coll"
+  [elt coll]
+  (some #{elt} coll))
+(comment (elt-in? :has [:has :is :was]))
+
+
+(rf/reg-event-db
+ ::set-source-url
+ (fn-traced [db [_ url]]
+            (assoc db :source-url url)))
 
 (rf/reg-event-db
  ::good-http-result
