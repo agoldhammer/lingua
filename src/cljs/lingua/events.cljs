@@ -29,9 +29,9 @@
   "test whether elt is in coll"
   [elt coll]
   (some #{elt} coll))
-(comment (elt-in? :has [:has :is :was]))
+(comment (elt-in? :setter [:from-lang :to-lang :source-url]))
 
-
+; TODO rewrite to set any of the above params
 (rf/reg-event-db
  ::set-source-url
  (fn-traced [db [_ url]]
@@ -55,6 +55,23 @@
    {:db   (assoc db :show-twirly true)   ;; causes the twirly-waiting-dialog to show??
     :http-xhrio {:method          :get
                  :uri             (endpoint "de")
+                 :timeout         8000                                           ;; optional see API docs
+                 :response-format (ajax/json-response-format {:keywords? true})  ;; IMPORTANT!: You must provide this.
+                 :on-success      [::good-http-result]
+                 :on-failure      [::bad-http-result]}}))
+
+(def deurl "https://www.faz.net/aktuell/wirtschaft/kommentar-zur-naechsten-spd-idee-steuerboeller-von-links-16566495.html")
+
+(rf/reg-event-fx
+ ::post-handler
+ (fn [{:keys [db]} [_ url]]
+   {:db   (assoc db :show-twirly true)   ;; causes the twirly-waiting-dialog to show??
+    :http-xhrio {:method          :post
+                 :uri             "/api/set-params"
+                 :params          {:url url
+                                   :srclang "de"
+                                   :targetlang "en"}
+                 :format          (ajax/json-request-format)
                  :timeout         8000                                           ;; optional see API docs
                  :response-format (ajax/json-response-format {:keywords? true})  ;; IMPORTANT!: You must provide this.
                  :on-success      [::good-http-result]
