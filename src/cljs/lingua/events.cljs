@@ -41,7 +41,8 @@
  ::good-http-result
  (fn-traced [db [_ result]]
             (prn result)
-            (assoc db :show-twirly false)))
+            (merge db {:show-twirly false
+                       :current-from result})))
 
 (rf/reg-event-db
  ::bad-http-result
@@ -49,7 +50,7 @@
             (prn error)
             (assoc db :show-twirly false)))
 
-(rf/reg-event-fx
+#_(rf/reg-event-fx
  ::handler-with-http
  (fn [{:keys [db]} _]
    {:db   (assoc db :show-twirly true)   ;; causes the twirly-waiting-dialog to show??
@@ -63,9 +64,31 @@
 (def deurl "https://www.faz.net/aktuell/wirtschaft/kommentar-zur-naechsten-spd-idee-steuerboeller-von-links-16566495.html")
 
 (rf/reg-event-fx
+ ::get-source-at-index
+ (fn [{:keys [db]} [_ source-index]]
+   (prn "fetch source index:" source-index)
+   {:db   (assoc db :setting-source true)   ;; causes the twirly-waiting-dialog to show??
+    :http-xhrio {:method          :post
+                 :uri             "/api/get-orig-sent"
+                 :params          {:index source-index}
+                 :format          (ajax/json-request-format)
+                 :timeout         3000                                           ;; optional see API docs
+                 :response-format (ajax/json-response-format {:keywords? true})  ;; IMPORTANT!: You must provide this.
+                 :on-success      [::good-http-result]
+                 :on-failure      [::bad-http-result]}}
+   ))
+
+(rf/reg-event-db
+ ::source-was-set
+ (fn-traced [db [_ _]]
+            (rf/dispatch [::get-source-at-index 0])
+            (merge db {:setting-source false
+                       :source-is-set true})))
+
+(rf/reg-event-fx
  ::post-handler
  (fn [{:keys [db]} [_ url]]
-   {:db   (assoc db :show-twirly true)   ;; causes the twirly-waiting-dialog to show??
+   {:db   (assoc db :setting-source true)   ;; causes the twirly-waiting-dialog to show??
     :http-xhrio {:method          :post
                  :uri             "/api/set-params"
                  :params          {:url url
@@ -74,5 +97,5 @@
                  :format          (ajax/json-request-format)
                  :timeout         8000                                           ;; optional see API docs
                  :response-format (ajax/json-response-format {:keywords? true})  ;; IMPORTANT!: You must provide this.
-                 :on-success      [::good-http-result]
+                 :on-success      [::source-was-set]
                  :on-failure      [::bad-http-result]}}))

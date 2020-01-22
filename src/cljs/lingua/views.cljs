@@ -57,16 +57,17 @@
 
 (defn main-panel []
   (let [name @(rf/subscribe [::subs/name])
+        current-from @(rf/subscribe [::subs/current-from])
         error-msg @(rf/subscribe [::subs/error])]
     [:div.container
      [controls]
-     [:div#from
-      [:textarea {:placeholder error-msg}]]
-     [:div#to
+     [:div#from.textholder
+      [:p current-from]]
+     [:div#to.textholder
       [:textarea {:placeholder name}]]
-     [:div#usertext
+     [:div#usertext.textholder
       [:textarea]]
-     [:div#usertrans
+     [:div#usertrans.textholder
       [:textarea]]
      ; when error-msg not nil, error box is placed
      ;  with upper left corner at center of from grid area

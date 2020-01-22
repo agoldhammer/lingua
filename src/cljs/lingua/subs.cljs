@@ -11,3 +11,8 @@
  ::error
  (fn [db]
    (:error db)))
+
+(rf/reg-sub
+ ::current-from
+ (fn [db]
+   (:current-from db)))
